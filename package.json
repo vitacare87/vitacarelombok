@@ -1,0 +1,39 @@
+{
+  "name": "vita-care-lombok",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vita Care Lombok - Premium Home Care platform (Next.js 15 + TypeScript + Tailwind + Supabase)",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postbuild": "next-sitemap || true"
+  },
+  "dependencies": {
+    "next": "15.5.7",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
+    "@supabase/supabase-js": "^2.45.4",
+    "firebase": "^11.1.0",
+    "@react-google-maps/api": "^2.20.3",
+    "midtrans-client": "^1.4.2",
+    "pdf-lib": "^1.17.1",
+    "qrcode": "^1.5.4",
+    "lucide-react": "^0.469.0",
+    "framer-motion": "^11.15.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "@types/qrcode": "^1.5.5",
+    "tailwindcss": "^3.4.17",
+    "postcss": "^8.4.49",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.18.0",
+    "eslint-config-next": "15.5.7",
+    "next-sitemap": "^4.2.3"
+  }
+}
