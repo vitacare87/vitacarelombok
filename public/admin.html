@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel Super Admin | Vita Care Lombok</title>
+<style>
+  :root{
+    --teal:#0d9488;--teal-dark:#0f766e;--teal-700:#115e59;
+    --emerald:#059669;--ink:#0f172a;--slate:#475569;--muted:#64748b;
+    --line:#e2e8f0;--bg:#f8fafc;--bg-soft:#f1f5f9;--white:#ffffff;
+    --red:#dc2626;--red-bg:#fef2f2;--amber:#b45309;--amber-bg:#fffbeb;
+    --green-bg:#ecfdf5;
+    --radius:16px;--shadow:0 1px 3px rgba(15,23,42,.06),0 8px 24px rgba(15,23,42,.05);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  a{color:var(--teal-dark);text-decoration:none}
+  button{font-family:inherit;cursor:pointer}
+  input,select,textarea{font-family:inherit;font-size:14px}
+
+  /* Header */
+  .admin-header{background:linear-gradient(135deg,var(--teal-700),var(--teal),var(--emerald));color:#fff;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .admin-header .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:17px}
+  .admin-header .logo{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:19px}
+  .admin-header small{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;opacity:.85}
+  .admin-header .actions{display:flex;gap:8px;flex-wrap:wrap}
+
+  /* Buttons */
+  .btn{border:0;border-radius:10px;padding:9px 16px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .btn-primary{background:var(--teal);color:#fff}
+  .btn-primary:hover{background:var(--teal-dark)}
+  .btn-light{background:rgba(255,255,255,.16);color:#fff}
+  .btn-light:hover{background:rgba(255,255,255,.28)}
+  .btn-ghost{background:var(--white);color:var(--slate);border:1px solid var(--line)}
+  .btn-ghost:hover{background:var(--bg-soft);color:var(--ink)}
+  .btn-danger{background:var(--red-bg);color:var(--red);border:1px solid #fecaca}
+  .btn-danger:hover{background:#fee2e2}
+  .btn-sm{padding:6px 11px;font-size:13px;border-radius:8px}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* Layout */
+  .wrap{max-width:1040px;margin:0 auto;padding:26px 22px 80px}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:22px}
+  .card h2{margin:0 0 4px;font-size:19px}
+  .card .sub{color:var(--muted);font-size:13.5px;margin:0 0 18px}
+  .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+  .section-head h2{margin:0}
+
+  /* Tabs */
+  .tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:22px;flex-wrap:wrap}
+  .tab{background:none;border:0;padding:12px 16px;font-weight:600;font-size:14.5px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+  .tab.active{color:var(--teal-dark);border-bottom-color:var(--teal)}
+  .tab:hover{color:var(--ink)}
+  .pane{display:none}
+  .pane.active{display:block}
+
+  /* Login */
+  .login-screen{min-height:100vh;display:grid;place-items:center;padding:22px;background:linear-gradient(135deg,#0f766e22,#05966922),var(--bg)}
+  .login-box{background:var(--white);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:34px 30px;width:100%;max-width:400px;text-align:center}
+  .login-box .logo{width:56px;height:56px;border-radius:15px;background:linear-gradient(135deg,var(--teal),var(--emerald));color:#fff;display:grid;place-items:center;font-size:28px;margin:0 auto 16px}
+  .login-box h1{font-size:21px;margin:0 0 4px}
+  .login-box p{color:var(--muted);font-size:14px;margin:0 0 22px}
+
+  /* Fields */
+  .field{margin-bottom:14px;text-align:left}
+  .field label{display:block;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:6px}
+  .field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--white);color:var(--ink);transition:.15s}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:0;border-color:var(--teal);box-shadow:0 0 0 3px #0d948822}
+  .field textarea{resize:vertical;min-height:64px}
+  .field .hint{font-size:12px;color:var(--muted);margin-top:5px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .row-3{display:grid;grid-template-columns:80px 1fr 1fr;gap:14px}
+  @media(max-width:620px){.row,.row-3{grid-template-columns:1fr}}
+
+  /* Service / nav items */
+  .item{display:flex;align-items:flex-start;gap:14px;padding:16px;border:1px solid var(--line);border-radius:13px;margin-bottom:12px;background:var(--white);transition:.15s}
+  .item.inactive{opacity:.6;background:var(--bg-soft)}
+  .item .ic{width:46px;height:46px;flex:0 0 auto;border-radius:12px;background:var(--bg-soft);display:grid;place-items:center;font-size:24px}
+  .item .body{flex:1;min-width:0}
+  .item .body .title-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .item .body h3{margin:0;font-size:15.5px}
+  .item .body .desc{color:var(--muted);font-size:13.5px;margin:3px 0 0}
+  .item .body .price{color:var(--teal-dark);font-weight:700;font-size:14px;margin-top:6px}
+  .item .ctrls{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+  .item .move{display:flex;gap:4px}
+  .item .move button{width:30px;height:28px;padding:0;font-size:14px;display:grid;place-items:center}
+  .item .edit-ctrls{display:flex;gap:6px}
+
+  .badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.02em}
+  .badge.pop{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}
+  .badge.off{background:var(--red-bg);color:var(--red);border:1px solid #fecaca}
+  .badge.on{background:var(--green-bg);color:var(--emerald);border:1px solid #a7f3d0}
+
+  /* Empty */
+  .empty{text-align:center;padding:40px 20px;color:var(--muted)}
+  .empty .big{font-size:38px;margin-bottom:8px}
+
+  /* Toast */
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:var(--ink);color:#fff;padding:13px 22px;border-radius:12px;font-weight:600;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);transition:transform .3s;z-index:200;display:flex;align-items:center;gap:9px}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  .toast.err{background:var(--red)}
+
+  /* Modal */
+  .modal-bg{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;place-items:center;padding:22px;z-index:100}
+  .modal-bg.show{display:grid}
+  .modal{background:var(--white);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.3);width:100%;max-width:520px;max-height:90vh;overflow:auto}
+  .modal-head{padding:20px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+  .modal-head h3{margin:0;font-size:18px}
+  .modal-head .x{background:none;border:0;font-size:24px;color:var(--muted);line-height:1;padding:0 4px}
+  .modal-body{padding:22px 24px}
+  .modal-foot{padding:16px 24px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px}
+
+  .emoji-pick{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .emoji-pick button{width:38px;height:38px;border:1px solid var(--line);border-radius:10px;background:var(--white);font-size:20px;display:grid;place-items:center}
+  .emoji-pick button:hover{background:var(--bg-soft);border-color:var(--teal)}
+
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
+  @media(max-width:560px){.stat-row{grid-template-columns:1fr}}
+  .stat{background:var(--white);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .stat .n{font-size:26px;font-weight:800;color:var(--teal-dark)}
+  .stat .l{font-size:13px;color:var(--muted);font-weight:600}
+
+  .note{background:#ecfeff;border:1px solid #a5f3fc;border-radius:12px;padding:14px 16px;font-size:13.5px;color:#155e63;margin-bottom:20px}
+  .note strong{color:#0e7490}
+  code{background:var(--bg-soft);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:13px}
+  .switch{position:relative;display:inline-block;width:42px;height:24px}
+  .switch input{opacity:0;width:0;height:0}
+  .slider{position:absolute;inset:0;background:#cbd5e1;border-radius:999px;transition:.2s}
+  .slider:before{content:"";position:absolute;height:18px;width:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+  .switch input:checked + .slider{background:var(--emerald)}
+  .switch input:checked + .slider:before{transform:translateX(18px)}
+  .toggle-line{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--slate)}
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-box">
+    <div class="logo">✚</div>
+    <h1>Panel Super Admin</h1>
+    <p>Vita Care Lombok</p>
+    <form id="loginForm">
+      <div class="field">
+        <label for="loginPass">Kata sandi</label>
+        <input type="password" id="loginPass" placeholder="Masukkan kata sandi" autocomplete="current-password" required>
+        <div class="hint" id="loginHint">Kata sandi awal: <code>admin123</code> &mdash; ganti setelah masuk.</div>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Masuk</button>
+    </form>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" class="hidden">
+  <header class="admin-header">
+    <div class="brand">
+      <span class="logo">✚</span>
+      <span>Vita Care Lombok<small>PANEL SUPER ADMIN</small></span>
+    </div>
+    <div class="actions">
+      <button class="btn btn-light btn-sm" id="btnExport">⬇️ Ekspor JSON</button>
+      <button class="btn btn-light btn-sm" id="btnImport">⬆️ Impor JSON</button>
+      <button class="btn btn-light btn-sm" id="btnLogout">Keluar</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="note">
+      <strong>Cara pakai:</strong> Semua perubahan tersimpan otomatis di browser ini (localStorage). Untuk memakainya di situs utama, klik <strong>Ekspor JSON</strong> lalu muat file <code>vitacare-data.json</code> di beranda Anda, atau salin isinya. Gunakan <strong>Impor JSON</strong> untuk memuat data dari perangkat lain.
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="n" id="statTotal">0</div><div class="l">Total Layanan</div></div>
+      <div class="stat"><div class="n" id="statActive">0</div><div class="l">Layanan Aktif</div></div>
+      <div class="stat"><div class="n" id="statPop">0</div><div class="l">Ditandai Populer</div></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="services">🩺 Menu Layanan</button>
+      <button class="tab" data-tab="nav">🧭 Menu Navigasi</button>
+      <button class="tab" data-tab="legalnav">⚖️ Menu Legal</button>
+      <button class="tab" data-tab="coverage">🗺️ Titik Peta</button>
+      <button class="tab" data-tab="settings">⚙️ Pengaturan</button>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="pane active" id="pane-services">
+      <div class="section-head">
+        <h2>Menu Layanan</h2>
+        <button class="btn btn-primary" id="btnAddService">+ Tambah Layanan</button>
+      </div>
+      <div id="serviceList"></div>
+    </div>
+
+    <!-- NAV -->
+    <div class="pane" id="pane-nav">
+      <div class="section-head">
+        <h2>Menu Navigasi</h2>
+        <button class="btn btn-primary" id="btnAddNav">+ Tambah Tautan</button>
+      </div>
+      <div id="navList"></div>
+    </div>
+
+    <!-- LEGAL NAV / MENU HALAMAN LEGAL -->
+    <div class="pane" id="pane-legalnav">
+      <div class="section-head">
+        <h2>Menu Legal</h2>
+        <button class="btn btn-primary" id="btnAddLegal">+ Tambah Tautan</button>
+      </div>
+      <p class="sub" style="margin:-6px 0 12px">Menu untuk halaman legal (Tentang, Privasi, Syarat &amp; Ketentuan, Disclaimer).</p>
+      <div id="legalList"></div>
+    </div>
+
+    <!-- COVERAGE / TITIK PETA -->
+    <div class="pane" id="pane-coverage">
+      <div class="section-head">
+        <h2>Titik Peta (Wilayah Layanan)</h2>
+        <button class="btn btn-primary" id="btnAddCoverage">+ Tambah Titik</button>
+      </div>
+      <p class="sub" style="margin:-6px 0 14px">Titik ini tampil sebagai penanda di peta beranda. 🟡 Emas = Wisata Premium, ⚪ Hijau = Kota Utama.</p>
+      <div id="coverageList"></div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="pane" id="pane-settings">
+      <div class="card">
+        <h2>Ganti Kata Sandi</h2>
+        <p class="sub">Kata sandi digunakan untuk masuk ke panel ini.</p>
+        <form id="passForm">
+          <div class="field"><label>Kata sandi saat ini</label><input type="password" id="curPass" required></div>
+          <div class="row">
+            <div class="field"><label>Kata sandi baru</label><input type="password" id="newPass" minlength="4" required></div>
+            <div class="field"><label>Ulangi kata sandi baru</label><input type="password" id="newPass2" minlength="4" required></div>
+          </div>
+          <button class="btn btn-primary" type="submit">Simpan Kata Sandi</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Identitas Situs</h2>
+        <p class="sub">Nama yang ditampilkan di header situs (opsional, untuk data ekspor).</p>
+        <div class="field"><label>Nama brand</label><input type="text" id="siteName"></div>
+        <div class="field"><label>Tagline</label><input type="text" id="siteTagline"></div>
+        <div class="field"><label>Nomor WhatsApp (untuk tombol pesan)</label><input type="text" id="siteWa" placeholder="contoh: 6281234567890"></div>
+        <button class="btn btn-primary" id="btnSaveSite">Simpan Identitas</button>
+      </div>
+      <div class="card">
+        <h2>Data &amp; Cadangan</h2>
+        <p class="sub">Kelola seluruh data konfigurasi.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-ghost" id="btnExport2">⬇️ Ekspor JSON</button>
+          <button class="btn btn-ghost" id="btnImport2">⬆️ Impor JSON</button>
+          <button class="btn btn-ghost" id="btnSeed">♻️ Muat Contoh Layanan</button>
+          <button class="btn btn-danger" id="btnReset">🗑️ Reset Semua Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SERVICE MODAL ============ -->
+<div class="modal-bg" id="serviceModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="svcModalTitle">Tambah Layanan</h3>
+      <button class="x" data-close>&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="svcId">
+      <div class="row-3">
+        <div class="field"><label>Ikon</label><input type="text" id="svcIcon" maxlength="4" placeholder="🩺"></div>
+        <div class="field" style="grid-column:span 2"><label>Nama layanan</label><input type="text" id="svcName" placeholder="contoh: Dokter ke Rumah"></div>
+      </div>
+      <div class="emoji-pick" id="emojiPick"></div>
+      <div class="field" style="margin-top:14px"><label>Deskripsi singkat</label><textarea id="svcDesc" placeholder="Layanan pemeriksaan dokter umum langsung di rumah Anda."></textarea></div>
+      <div class="row">
+        <div class="field"><label>Harga (teks bebas)</label><input type="text" id="svcPrice" placeholder="contoh: Mulai Rp150.000"></div>
+        <div class="field"><label>Kategori (opsional)</label><input type="text" id="svcCat" placeholder="contoh: Medis"></div>
+      </div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:6px">
+        <label class="toggle-line"><span class="switch"><input type="checkbox" id="svcPopular"><span class="slider"></span></span> Tandai “Populer”</label>
+        <label class="toggle-line"><span class="switch"><input type="checkbox" id="svcActive" checked><span class="slider"></span></span> Aktif (tampil di situs)</label>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" data-close>Batal</button>
+      <button class="btn btn-primary" id="btnSaveService">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ NAV MODAL ============ -->
+<div class="modal-bg" id="navModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="navModalTitle">Tambah Tautan</h3>
+      <button class="x" data-close>&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="navId">
+      <div class="field"><label>Label menu</label><input type="text" id="navLabel" placeholder="contoh: Tentang Kami"></div>
+      <div class="field"><label>URL / tautan</label><input type="text" id="navUrl" placeholder="contoh: tentang.html"></div>
+      <label class="toggle-line"><span class="switch"><input type="checkbox" id="navActive" checked><span class="slider"></span></span> Aktif (tampil di menu)</label>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" data-close>Batal</button>
+      <button class="btn btn-primary" id="btnSaveNav">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="legalModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="legalModalTitle">Tambah Tautan</h3>
+      <button class="x" data-close>&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="legalId">
+      <div class="field"><label>Label menu</label><input type="text" id="legalLabel" placeholder="contoh: Privasi"></div>
+      <div class="field"><label>URL / tautan</label><input type="text" id="legalUrl" placeholder="contoh: kebijakan-privasi.html"></div>
+      <label class="toggle-line"><span class="switch"><input type="checkbox" id="legalActive" checked><span class="slider"></span></span> Aktif (tampil di menu)</label>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" data-close>Batal</button>
+      <button class="btn btn-primary" id="btnSaveLegal">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ COVERAGE MODAL ============ -->
+<div class="modal-bg" id="coverageModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="covModalTitle">Tambah Titik</h3>
+      <button class="x" data-close>&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="covId">
+      <div class="field"><label>Nama lokasi</label><input type="text" id="covName" placeholder="contoh: Mataram"></div>
+      <div class="row">
+        <div class="field"><label>Latitude</label><input type="number" id="covLat" step="any" placeholder="-8.5833"></div>
+        <div class="field"><label>Longitude</label><input type="number" id="covLng" step="any" placeholder="116.1167"></div>
+      </div>
+      <p class="sub" style="margin:-4px 0 12px">Cari koordinat di Google Maps: klik kanan pada lokasi, lalu klik angka (lat, lng) untuk menyalin.</p>
+      <div class="row">
+        <div class="field"><label>Radius cakupan (km, opsional)</label><input type="number" id="covRadius" step="any" min="0" placeholder="contoh: 10"></div>
+        <div class="field"><label>Keterangan (opsional)</label><input type="text" id="covDesc" placeholder="contoh: Layanan 24 jam"></div>
+      </div>
+      <label class="toggle-line"><span class="switch"><input type="checkbox" id="covTourist"><span class="slider"></span></span> Wisata Premium (penanda emas)</label>
+      <label class="toggle-line"><span class="switch"><input type="checkbox" id="covActive" checked><span class="slider"></span></span> Aktif (tampil di peta)</label>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" data-close>Batal</button>
+      <button class="btn btn-primary" id="btnSaveCoverage">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="fileInput" accept="application/json,.json" class="hidden">
+
+<script>
+(function(){
+  "use strict";
+  var STORE_KEY = "vitacare_admin_config_v1";
+  var DEFAULT_PASS = "admin123";
+
+  var EMOJIS = ["🩺","👨‍⚕️","👩‍⚕️","💉","🚑","🩻","👶","🤰","🦷","🧠","❤️","🩸","🏥","💊","🧬","🔬","🦽","👴","🧑‍🦽","🙏"];
+
+  function seedConfig(){
+    return {
+      password: DEFAULT_PASS,
+      site: { name:"VITA CARE LOMBOK", tagline:"PREMIUM HOME CARE", whatsapp:"6282227420800" },
+      services: [
+        {id:uid(), icon:"🩺", name:"Doctor Home Visit", desc:"Dokter umum, anak, penyakit dalam, dan geriatri datang langsung ke lokasi Anda.", price:"", category:"Medis", popular:false, active:true},
+        {id:uid(), icon:"💉", name:"Nursing Home Care", desc:"Perawatan luka, injeksi, infus, kateter, nebulizer, dan wound care diabetes.", price:"", category:"Medis", popular:false, active:true},
+        {id:uid(), icon:"👵", name:"Elderly Care", desc:"Pendampingan lansia, monitoring tekanan darah & gula darah harian.", price:"", category:"Medis", popular:false, active:true},
+        {id:uid(), icon:"👶", name:"Mother & Baby", desc:"Kunjungan postpartum, neonatal care, baby check, dan support laktasi.", price:"", category:"Medis", popular:false, active:true},
+        {id:uid(), icon:"🧪", name:"Lab Home Service", desc:"Pengambilan darah, rapid test, dan medical check-up tanpa keluar rumah.", price:"", category:"Laboratorium", popular:false, active:true},
+        {id:uid(), icon:"🏃", name:"Physiotherapy", desc:"Rehabilitasi pasca stroke, terapi nyeri, dan latihan mobilisasi.", price:"", category:"Rehabilitasi", popular:false, active:true},
+        {id:uid(), icon:"💧", name:"IV Therapy & Wellness", desc:"Vitamin drip, hydration therapy, dan wellness recovery premium.", price:"Rp 750K", category:"Wellness", popular:true, active:true},
+        {id:uid(), icon:"✈️", name:"Tourist Medical", desc:"Doctor-to-hotel, emergency support & English-speaking doctor untuk wisatawan.", price:"From Rp 950K", category:"Tourist", popular:true, active:true}
+      ],
+      nav: [
+        {id:uid(), label:"Home", url:"index.html", active:true},
+        {id:uid(), label:"Tentang", url:"tentang.html", active:true},
+        {id:uid(), label:"Layanan", url:"services.html", active:false},
+        {id:uid(), label:"Membership", url:"membership.html", active:false},
+        {id:uid(), label:"Tourist Medical", url:"tourist.html", active:false},
+        {id:uid(), label:"Corporate Care", url:"corporate-care.html", active:false},
+        {id:uid(), label:"Blog", url:"blog.html", active:false},
+        {id:uid(), label:"Careers", url:"careers.html", active:false},
+        {id:uid(), label:"Contact", url:"contact.html", active:false}
+      ],
+      legalNav: [
+        {id:uid(), label:"Beranda", url:"index.html", active:true},
+        {id:uid(), label:"Tentang Kami", url:"tentang.html", active:true},
+        {id:uid(), label:"Privasi", url:"kebijakan-privasi.html", active:true},
+        {id:uid(), label:"Syarat & Ketentuan", url:"syarat-ketentuan.html", active:true},
+        {id:uid(), label:"Disclaimer", url:"disclaimer.html", active:true}
+      ],
+      coverage: [
+        {id:uid(), name:"Mataram", lat:-8.5833, lng:116.1167, radius:12, desc:"Pusat layanan & respon tercepat", tourist:false, active:true},
+        {id:uid(), name:"Senggigi", lat:-8.4889, lng:116.0436, radius:6, desc:"Area wisata pantai barat", tourist:true, active:true},
+        {id:uid(), name:"Kuta Mandalika", lat:-8.8920, lng:116.2811, radius:8, desc:"Kawasan MotoGP & resort", tourist:true, active:true},
+        {id:uid(), name:"Gili Trawangan", lat:-8.3489, lng:116.0392, radius:3, desc:"Layanan ke hotel/resort", tourist:true, active:true},
+        {id:uid(), name:"Gili Air", lat:-8.3603, lng:116.0847, radius:2, desc:"Layanan ke hotel/resort", tourist:true, active:true},
+        {id:uid(), name:"Gili Meno", lat:-8.3514, lng:116.0614, radius:2, desc:"Layanan ke hotel/resort", tourist:true, active:true},
+        {id:uid(), name:"Praya", lat:-8.7100, lng:116.2742, radius:10, desc:"Dekat Bandara Internasional Lombok", tourist:false, active:true},
+        {id:uid(), name:"Selong", lat:-8.6500, lng:116.5247, radius:10, desc:"Wilayah Lombok Timur", tourist:false, active:true}
+      ]
+    };
+  }
+
+  var config = null;
+
+  function uid(){ return "x"+Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-4); }
+
+  function load(){
+    try{
+      var raw = localStorage.getItem(STORE_KEY);
+      if(raw){ config = JSON.parse(raw); }
+    }catch(e){ config = null; }
+    if(!config || !config.services){ config = seedConfig(); save(); }
+    // backfill
+    if(!config.site) config.site = {name:"Vita Care Lombok",tagline:"HOME CARE PROFESIONAL",whatsapp:""};
+    if(!config.nav) config.nav = [];
+    if(!config.legalNav) config.legalNav = [];
+    if(!config.coverage) config.coverage = [];
+    if(!config.password) config.password = DEFAULT_PASS;
+  }
+  function save(){
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify(config)); }
+    catch(e){ toast("Gagal menyimpan: penyimpanan browser penuh.", true); }
+  }
+
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+
+  var toastTimer;
+  function toast(msg, isErr){
+    var t = $("toast");
+    t.textContent = msg;
+    t.className = "toast show" + (isErr?" err":"");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.className = "toast" + (isErr?" err":""); }, 2600);
+  }
+
+  /* ---------- AUTH ---------- */
+  function isAuthed(){ return sessionStorage.getItem("vc_authed")==="1"; }
+  function showApp(){
+    $("loginScreen").classList.add("hidden");
+    $("app").classList.remove("hidden");
+    renderAll();
+  }
+  function showLogin(){
+    $("app").classList.add("hidden");
+    $("loginScreen").classList.remove("hidden");
+    $("loginPass").value="";
+    $("loginPass").focus();
+  }
+
+  $("loginForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    if($("loginPass").value === config.password){
+      sessionStorage.setItem("vc_authed","1");
+      showApp();
+      toast("Selamat datang, Super Admin!");
+    } else {
+      var h = $("loginHint");
+      h.innerHTML = "<span style='color:#dc2626;font-weight:600'>Kata sandi salah. Coba lagi.</span>";
+    }
+  });
+  $("btnLogout").addEventListener("click", function(){
+    sessionStorage.removeItem("vc_authed");
+    showLogin();
+  });
+
+  /* ---------- TABS ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll(".tab"), function(tab){
+    tab.addEventListener("click", function(){
+      document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active");});
+      document.querySelectorAll(".pane").forEach(function(p){p.classList.remove("active");});
+      tab.classList.add("active");
+      $("pane-"+tab.dataset.tab).classList.add("active");
+    });
+  });
+
+  /* ---------- RENDER ---------- */
+  function renderAll(){ renderStats(); renderServices(); renderNav(); renderLegal(); renderCoverage(); renderSettings(); }
+
+  function renderStats(){
+    $("statTotal").textContent = config.services.length;
+    $("statActive").textContent = config.services.filter(function(s){return s.active;}).length;
+    $("statPop").textContent = config.services.filter(function(s){return s.popular;}).length;
+  }
+
+  function renderServices(){
+    var box = $("serviceList");
+    if(!config.services.length){
+      box.innerHTML = "<div class='empty'><div class='big'>🩺</div><p>Belum ada layanan. Klik <strong>Tambah Layanan</strong> untuk memulai.</p></div>";
+      return;
+    }
+    box.innerHTML = config.services.map(function(s, i){
+      return "<div class='item"+(s.active?"":" inactive")+"'>"+
+        "<div class='ic'>"+esc(s.icon||"🩺")+"</div>"+
+        "<div class='body'>"+
+          "<div class='title-line'><h3>"+esc(s.name)+"</h3>"+
+            (s.popular?"<span class='badge pop'>⭐ Populer</span>":"")+
+            (s.active?"<span class='badge on'>Aktif</span>":"<span class='badge off'>Nonaktif</span>")+
+          "</div>"+
+          (s.desc?"<p class='desc'>"+esc(s.desc)+"</p>":"")+
+          (s.price?"<div class='price'>"+esc(s.price)+"</div>":"")+
+        "</div>"+
+        "<div class='ctrls'>"+
+          "<div class='move'>"+
+            "<button class='btn btn-ghost btn-sm' data-mv='up' data-i='"+i+"' "+(i===0?"disabled":"")+" title='Naik'>↑</button>"+
+            "<button class='btn btn-ghost btn-sm' data-mv='down' data-i='"+i+"' "+(i===config.services.length-1?"disabled":"")+" title='Turun'>↓</button>"+
+          "</div>"+
+          "<div class='edit-ctrls'>"+
+            "<button class='btn btn-ghost btn-sm' data-edit='"+s.id+"'>✏️ Edit</button>"+
+            "<button class='btn btn-danger btn-sm' data-del='"+s.id+"'>Hapus</button>"+
+          "</div>"+
+        "</div>"+
+      "</div>";
+    }).join("");
+  }
+
+  function renderNav(){
+    var box = $("navList");
+    if(!config.nav.length){
+      box.innerHTML = "<div class='empty'><div class='big'>🧭</div><p>Belum ada tautan navigasi.</p></div>";
+      return;
+    }
+    box.innerHTML = config.nav.map(function(n, i){
+      return "<div class='item"+(n.active?"":" inactive")+"'>"+
+        "<div class='ic'>🔗</div>"+
+        "<div class='body'>"+
+          "<div class='title-line'><h3>"+esc(n.label)+"</h3>"+(n.active?"<span class='badge on'>Aktif</span>":"<span class='badge off'>Nonaktif</span>")+"</div>"+
+          "<p class='desc'>"+esc(n.url)+"</p>"+
+        "</div>"+
+        "<div class='ctrls'>"+
+          "<div class='move'>"+
+            "<button class='btn btn-ghost btn-sm' data-nmv='up' data-i='"+i+"' "+(i===0?"disabled":"")+">↑</button>"+
+            "<button class='btn btn-ghost btn-sm' data-nmv='down' data-i='"+i+"' "+(i===config.nav.length-1?"disabled":"")+">↓</button>"+
+          "</div>"+
+          "<div class='edit-ctrls'>"+
+            "<button class='btn btn-ghost btn-sm' data-nedit='"+n.id+"'>✏️ Edit</button>"+
+            "<button class='btn btn-danger btn-sm' data-ndel='"+n.id+"'>Hapus</button>"+
+          "</div>"+
+        "</div>"+
+      "</div>";
+    }).join("");
+  }
+
+  function renderLegal(){
+    var box = $("legalList");
+    if(!config.legalNav.length){
+      box.innerHTML = "<div class='empty'><div class='big'>⚖️</div><p>Belum ada tautan menu legal.</p></div>";
+      return;
+    }
+    box.innerHTML = config.legalNav.map(function(n, i){
+      return "<div class='item"+(n.active?"":" inactive")+"'>"+
+        "<div class='ic'>🔗</div>"+
+        "<div class='body'>"+
+          "<div class='title-line'><h3>"+esc(n.label)+"</h3>"+(n.active?"<span class='badge on'>Aktif</span>":"<span class='badge off'>Nonaktif</span>")+"</div>"+
+          "<p class='desc'>"+esc(n.url)+"</p>"+
+        "</div>"+
+        "<div class='ctrls'>"+
+          "<div class='move'>"+
+            "<button class='btn btn-ghost btn-sm' data-lmv='up' data-i='"+i+"' "+(i===0?"disabled":"")+">↑</button>"+
+            "<button class='btn btn-ghost btn-sm' data-lmv='down' data-i='"+i+"' "+(i===config.legalNav.length-1?"disabled":"")+">↓</button>"+
+          "</div>"+
+          "<div class='edit-ctrls'>"+
+            "<button class='btn btn-ghost btn-sm' data-ledit='"+n.id+"'>✏️ Edit</button>"+
+            "<button class='btn btn-danger btn-sm' data-ldel='"+n.id+"'>Hapus</button>"+
+          "</div>"+
+        "</div>"+
+      "</div>";
+    }).join("");
+  }
+
+  function renderCoverage(){
+    var box = $("coverageList");
+    var list = config.coverage || [];
+    if(!list.length){
+      box.innerHTML = "<div class='empty'><div class='big'>🗺️</div><p>Belum ada titik peta. Klik <strong>Tambah Titik</strong> untuk menambah wilayah layanan.</p></div>";
+      return;
+    }
+    box.innerHTML = list.map(function(c, i){
+      return "<div class='item"+(c.active?"":" inactive")+"'>"+
+        "<div class='ic'>"+(c.tourist?"🟡":"⚪")+"</div>"+
+        "<div class='body'>"+
+          "<div class='title-line'><h3>"+esc(c.name)+"</h3>"+
+            (c.tourist?"<span class='badge pop'>Wisata Premium</span>":"")+
+            (c.active?"<span class='badge on'>Aktif</span>":"<span class='badge off'>Nonaktif</span>")+
+          "</div>"+
+          "<p class='desc'>📍 "+esc(c.lat)+", "+esc(c.lng)+((c.radius!=null&&c.radius!=="")?(" · ⭕ "+esc(c.radius)+" km"):"")+"</p>"+
+          (c.desc?"<p class='desc'>"+esc(c.desc)+"</p>":"")+
+        "</div>"+
+        "<div class='ctrls'>"+
+          "<div class='move'>"+
+            "<button class='btn btn-ghost btn-sm' data-cmv='up' data-i='"+i+"' "+(i===0?"disabled":"")+">↑</button>"+
+            "<button class='btn btn-ghost btn-sm' data-cmv='down' data-i='"+i+"' "+(i===list.length-1?"disabled":"")+">↓</button>"+
+          "</div>"+
+          "<div class='edit-ctrls'>"+
+            "<button class='btn btn-ghost btn-sm' data-cedit='"+c.id+"'>✏️ Edit</button>"+
+            "<button class='btn btn-danger btn-sm' data-cdel='"+c.id+"'>Hapus</button>"+
+          "</div>"+
+        "</div>"+
+      "</div>";
+    }).join("");
+  }
+
+  function renderSettings(){
+    $("siteName").value = config.site.name||"";
+    $("siteTagline").value = config.site.tagline||"";
+    $("siteWa").value = config.site.whatsapp||"";
+  }
+
+  /* ---------- SERVICE CRUD ---------- */
+  function openServiceModal(svc){
+    $("svcModalTitle").textContent = svc ? "Edit Layanan" : "Tambah Layanan";
+    $("svcId").value = svc ? svc.id : "";
+    $("svcIcon").value = svc ? (svc.icon||"") : "🩺";
+    $("svcName").value = svc ? svc.name : "";
+    $("svcDesc").value = svc ? (svc.desc||"") : "";
+    $("svcPrice").value = svc ? (svc.price||"") : "";
+    $("svcCat").value = svc ? (svc.category||"") : "";
+    $("svcPopular").checked = svc ? !!svc.popular : false;
+    $("svcActive").checked = svc ? !!svc.active : true;
+    $("serviceModal").classList.add("show");
+    $("svcName").focus();
+  }
+  function buildEmojiPick(){
+    $("emojiPick").innerHTML = EMOJIS.map(function(e){ return "<button type='button' data-emoji='"+e+"'>"+e+"</button>"; }).join("");
+  }
+  $("emojiPick").addEventListener("click", function(e){
+    var b = e.target.closest("[data-emoji]");
+    if(b){ $("svcIcon").value = b.dataset.emoji; }
+  });
+
+  $("btnAddService").addEventListener("click", function(){ openServiceModal(null); });
+  $("btnSaveService").addEventListener("click", function(){
+    var name = $("svcName").value.trim();
+    if(!name){ toast("Nama layanan wajib diisi.", true); $("svcName").focus(); return; }
+    var id = $("svcId").value;
+    var data = {
+      icon: $("svcIcon").value.trim()||"🩺",
+      name: name,
+      desc: $("svcDesc").value.trim(),
+      price: $("svcPrice").value.trim(),
+      category: $("svcCat").value.trim(),
+      popular: $("svcPopular").checked,
+      active: $("svcActive").checked
+    };
+    if(id){
+      var s = config.services.find(function(x){return x.id===id;});
+      if(s) Object.assign(s, data);
+      toast("Layanan diperbarui.");
+    } else {
+      data.id = uid();
+      config.services.push(data);
+      toast("Layanan ditambahkan.");
+    }
+    save(); renderStats(); renderServices();
+    closeModals();
+  });
+
+  $("serviceList").addEventListener("click", function(e){
+    var t = e.target.closest("button"); if(!t) return;
+    if(t.dataset.edit){ openServiceModal(config.services.find(function(x){return x.id===t.dataset.edit;})); }
+    else if(t.dataset.del){
+      var s = config.services.find(function(x){return x.id===t.dataset.del;});
+      if(s && confirm("Hapus layanan \""+s.name+"\"?")){
+        config.services = config.services.filter(function(x){return x.id!==t.dataset.del;});
+        save(); renderStats(); renderServices(); toast("Layanan dihapus.");
+      }
+    }
+    else if(t.dataset.mv){
+      var i = parseInt(t.dataset.i,10);
+      var j = t.dataset.mv==="up" ? i-1 : i+1;
+      if(j>=0 && j<config.services.length){
+        var arr=config.services; var tmp=arr[i]; arr[i]=arr[j]; arr[j]=tmp;
+        save(); renderServices();
+      }
+    }
+  });
+
+  /* ---------- NAV CRUD ---------- */
+  function openNavModal(nav){
+    $("navModalTitle").textContent = nav ? "Edit Tautan" : "Tambah Tautan";
+    $("navId").value = nav ? nav.id : "";
+    $("navLabel").value = nav ? nav.label : "";
+    $("navUrl").value = nav ? nav.url : "";
+    $("navActive").checked = nav ? !!nav.active : true;
+    $("navModal").classList.add("show");
+    $("navLabel").focus();
+  }
+  $("btnAddNav").addEventListener("click", function(){ openNavModal(null); });
+  $("btnSaveNav").addEventListener("click", function(){
+    var label = $("navLabel").value.trim();
+    var url = $("navUrl").value.trim();
+    if(!label){ toast("Label wajib diisi.", true); return; }
+    if(!url){ toast("URL wajib diisi.", true); return; }
+    var id = $("navId").value;
+    var data = { label:label, url:url, active:$("navActive").checked };
+    if(id){
+      var n = config.nav.find(function(x){return x.id===id;});
+      if(n) Object.assign(n, data);
+      toast("Tautan diperbarui.");
+    } else {
+      data.id = uid();
+      config.nav.push(data);
+      toast("Tautan ditambahkan.");
+    }
+    save(); renderNav();
+    closeModals();
+  });
+  $("navList").addEventListener("click", function(e){
+    var t = e.target.closest("button"); if(!t) return;
+    if(t.dataset.nedit){ openNavModal(config.nav.find(function(x){return x.id===t.dataset.nedit;})); }
+    else if(t.dataset.ndel){
+      var n = config.nav.find(function(x){return x.id===t.dataset.ndel;});
+      if(n && confirm("Hapus tautan \""+n.label+"\"?")){
+        config.nav = config.nav.filter(function(x){return x.id!==t.dataset.ndel;});
+        save(); renderNav(); toast("Tautan dihapus.");
+      }
+    }
+    else if(t.dataset.nmv){
+      var i = parseInt(t.dataset.i,10);
+      var j = t.dataset.nmv==="up" ? i-1 : i+1;
+      if(j>=0 && j<config.nav.length){
+        var arr=config.nav; var tmp=arr[i]; arr[i]=arr[j]; arr[j]=tmp;
+        save(); renderNav();
+      }
+    }
+  });
+
+  /* ---------- LEGAL NAV CRUD ---------- */
+  function openLegalModal(nav){
+    $("legalModalTitle").textContent = nav ? "Edit Tautan" : "Tambah Tautan";
+    $("legalId").value = nav ? nav.id : "";
+    $("legalLabel").value = nav ? nav.label : "";
+    $("legalUrl").value = nav ? nav.url : "";
+    $("legalActive").checked = nav ? !!nav.active : true;
+    $("legalModal").classList.add("show");
+    $("legalLabel").focus();
+  }
+  $("btnAddLegal").addEventListener("click", function(){ openLegalModal(null); });
+  $("btnSaveLegal").addEventListener("click", function(){
+    var label = $("legalLabel").value.trim();
+    var url = $("legalUrl").value.trim();
+    if(!label){ toast("Label wajib diisi.", true); return; }
+    if(!url){ toast("URL wajib diisi.", true); return; }
+    var id = $("legalId").value;
+    var data = { label:label, url:url, active:$("legalActive").checked };
+    if(id){
+      var n = config.legalNav.find(function(x){return x.id===id;});
+      if(n) Object.assign(n, data);
+      toast("Tautan diperbarui.");
+    } else {
+      data.id = uid();
+      config.legalNav.push(data);
+      toast("Tautan ditambahkan.");
+    }
+    save(); renderLegal();
+    closeModals();
+  });
+  $("legalList").addEventListener("click", function(e){
+    var t = e.target.closest("button"); if(!t) return;
+    if(t.dataset.ledit){ openLegalModal(config.legalNav.find(function(x){return x.id===t.dataset.ledit;})); }
+    else if(t.dataset.ldel){
+      var n = config.legalNav.find(function(x){return x.id===t.dataset.ldel;});
+      if(n && confirm("Hapus tautan \""+n.label+"\"?")){
+        config.legalNav = config.legalNav.filter(function(x){return x.id!==t.dataset.ldel;});
+        save(); renderLegal(); toast("Tautan dihapus.");
+      }
+    }
+    else if(t.dataset.lmv){
+      var i = parseInt(t.dataset.i,10);
+      var j = t.dataset.lmv==="up" ? i-1 : i+1;
+      if(j>=0 && j<config.legalNav.length){
+        var arr=config.legalNav; var tmp=arr[i]; arr[i]=arr[j]; arr[j]=tmp;
+        save(); renderLegal();
+      }
+    }
+  });
+
+  /* ---------- COVERAGE CRUD ---------- */
+  function openCoverageModal(cov){
+    $("covModalTitle").textContent = cov ? "Edit Titik" : "Tambah Titik";
+    $("covId").value = cov ? cov.id : "";
+    $("covName").value = cov ? cov.name : "";
+    $("covLat").value = cov ? cov.lat : "";
+    $("covLng").value = cov ? cov.lng : "";
+    $("covRadius").value = cov ? (cov.radius != null ? cov.radius : "") : "";
+    $("covDesc").value = cov ? (cov.desc || "") : "";
+    $("covTourist").checked = cov ? !!cov.tourist : false;
+    $("covActive").checked = cov ? !!cov.active : true;
+    $("coverageModal").classList.add("show");
+    $("covName").focus();
+  }
+  $("btnAddCoverage").addEventListener("click", function(){ openCoverageModal(null); });
+  $("btnSaveCoverage").addEventListener("click", function(){
+    var name = $("covName").value.trim();
+    if(!name){ toast("Nama lokasi wajib diisi.", true); $("covName").focus(); return; }
+    var lat = parseFloat($("covLat").value);
+    var lng = parseFloat($("covLng").value);
+    if(isNaN(lat) || isNaN(lng)){ toast("Latitude & longitude harus berupa angka.", true); return; }
+    if(lat < -90 || lat > 90 || lng < -180 || lng > 180){ toast("Koordinat di luar jangkauan wajar.", true); return; }
+    var id = $("covId").value;
+    var radius = parseFloat($("covRadius").value);
+    var data = { name:name, lat:lat, lng:lng, radius:(isNaN(radius)?null:radius), desc:$("covDesc").value.trim(), tourist:$("covTourist").checked, active:$("covActive").checked };
+    if(id){
+      var c = config.coverage.find(function(x){return x.id===id;});
+      if(c) Object.assign(c, data);
+      toast("Titik peta diperbarui.");
+    } else {
+      data.id = uid();
+      config.coverage.push(data);
+      toast("Titik peta ditambahkan.");
+    }
+    save(); renderCoverage();
+    closeModals();
+  });
+  $("coverageList").addEventListener("click", function(e){
+    var t = e.target.closest("button"); if(!t) return;
+    if(t.dataset.cedit){ openCoverageModal(config.coverage.find(function(x){return x.id===t.dataset.cedit;})); }
+    else if(t.dataset.cdel){
+      var c = config.coverage.find(function(x){return x.id===t.dataset.cdel;});
+      if(c && confirm("Hapus titik \""+c.name+"\"?")){
+        config.coverage = config.coverage.filter(function(x){return x.id!==t.dataset.cdel;});
+        save(); renderCoverage(); toast("Titik peta dihapus.");
+      }
+    }
+    else if(t.dataset.cmv){
+      var i = parseInt(t.dataset.i,10);
+      var j = t.dataset.cmv==="up" ? i-1 : i+1;
+      if(j>=0 && j<config.coverage.length){
+        var arr=config.coverage; var tmp=arr[i]; arr[i]=arr[j]; arr[j]=tmp;
+        save(); renderCoverage();
+      }
+    }
+  });
+
+  /* ---------- MODAL CLOSE ---------- */
+  function closeModals(){
+    document.querySelectorAll(".modal-bg").forEach(function(m){m.classList.remove("show");});
+  }
+  document.addEventListener("click", function(e){
+    if(e.target.closest("[data-close]")) closeModals();
+    if(e.target.classList && e.target.classList.contains("modal-bg")) closeModals();
+  });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeModals(); });
+
+  /* ---------- SETTINGS ACTIONS ---------- */
+  $("btnSaveSite").addEventListener("click", function(){
+    config.site.name = $("siteName").value.trim();
+    config.site.tagline = $("siteTagline").value.trim();
+    config.site.whatsapp = $("siteWa").value.trim();
+    save(); toast("Identitas situs disimpan.");
+  });
+
+  $("passForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    if($("curPass").value !== config.password){ toast("Kata sandi saat ini salah.", true); return; }
+    if($("newPass").value !== $("newPass2").value){ toast("Konfirmasi kata sandi tidak cocok.", true); return; }
+    if($("newPass").value.length < 4){ toast("Kata sandi minimal 4 karakter.", true); return; }
+    config.password = $("newPass").value;
+    save();
+    $("passForm").reset();
+    toast("Kata sandi berhasil diganti.");
+  });
+
+  $("btnReset").addEventListener("click", function(){
+    if(confirm("Yakin reset SEMUA data ke kondisi awal? Tindakan ini tidak bisa dibatalkan.")){
+      config = seedConfig(); save(); renderAll(); toast("Data direset ke contoh awal.");
+    }
+  });
+  $("btnSeed").addEventListener("click", function(){
+    if(confirm("Tambahkan ulang contoh layanan bawaan? Layanan saat ini akan diganti.")){
+      var s = seedConfig(); config.services = s.services; save(); renderStats(); renderServices(); toast("Contoh layanan dimuat.");
+    }
+  });
+
+  /* ---------- EXPORT / IMPORT ---------- */
+  function doExport(){
+    var payload = {
+      _meta: { app:"vitacare-admin", version:1, exportedAt:new Date().toISOString() },
+      site: config.site,
+      services: config.services.map(function(s){ var c=Object.assign({},s); return c; }),
+      nav: config.nav,
+      legalNav: config.legalNav || [],
+      coverage: config.coverage || []
+    };
+    var blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = "vitacare-data.json";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast("File vitacare-data.json diunduh.");
+  }
+  function doImport(){ $("fileInput").click(); }
+  $("fileInput").addEventListener("change", function(e){
+    var file = e.target.files[0]; if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      try{
+        var data = JSON.parse(ev.target.result);
+        if(!data || (!data.services && !data.nav)) throw new Error("format");
+        if(data.services){ config.services = data.services.map(function(s){ if(!s.id) s.id=uid(); return s; }); }
+        if(data.nav){ config.nav = data.nav.map(function(n){ if(!n.id) n.id=uid(); return n; }); }
+        if(data.legalNav){ config.legalNav = data.legalNav.map(function(n){ if(!n.id) n.id=uid(); return n; }); }
+        if(data.coverage){ config.coverage = data.coverage.map(function(c){ if(!c.id) c.id=uid(); return c; }); }
+        if(data.site){ config.site = Object.assign(config.site, data.site); }
+        save(); renderAll();
+        toast("Data berhasil diimpor.");
+      }catch(err){ toast("File JSON tidak valid.", true); }
+      $("fileInput").value = "";
+    };
+    reader.readAsText(file);
+  });
+  $("btnExport").addEventListener("click", doExport);
+  $("btnExport2").addEventListener("click", doExport);
+  $("btnImport").addEventListener("click", doImport);
+  $("btnImport2").addEventListener("click", doImport);
+
+  /* ---------- INIT ---------- */
+  load();
+  buildEmojiPick();
+  if(isAuthed()){ showApp(); } else { showLogin(); }
+})();
+</script>
+</body>
+</html>
