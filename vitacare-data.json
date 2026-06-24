@@ -1,0 +1,265 @@
+{
+  "_meta": {
+    "app": "vitacare-admin",
+    "version": 1,
+    "note": "Diperbarui dari panel admin.html. Ganti file ini saat ekspor JSON dari panel.",
+    "exportedAt": "2026-06-23T11:19:46.638Z"
+  },
+  "site": {
+    "name": "VITA CARE LOMBOK",
+    "tagline": "PREMIUM HOME CARE",
+    "whatsapp": "6282227420800"
+  },
+  "services": [
+    {
+      "id": "s1",
+      "icon": "🩺",
+      "name": "Doctor Home Visit",
+      "desc": "Dokter umum, anak, penyakit dalam, dan geriatri datang langsung ke lokasi Anda.",
+      "price": "",
+      "category": "Medis",
+      "popular": false,
+      "active": true
+    },
+    {
+      "id": "s2",
+      "icon": "💉",
+      "name": "Nursing Home Care",
+      "desc": "Perawatan luka, injeksi, infus, kateter, nebulizer, dan wound care diabetes.",
+      "price": "",
+      "category": "Medis",
+      "popular": false,
+      "active": true
+    },
+    {
+      "id": "s3",
+      "icon": "👵",
+      "name": "Elderly Care",
+      "desc": "Pendampingan lansia, monitoring tekanan darah & gula darah harian.",
+      "price": "",
+      "category": "Medis",
+      "popular": false,
+      "active": true
+    },
+    {
+      "id": "s4",
+      "icon": "👶",
+      "name": "Mother & Baby",
+      "desc": "Kunjungan postpartum, neonatal care, baby check, dan support laktasi.",
+      "price": "",
+      "category": "Medis",
+      "popular": false,
+      "active": true
+    },
+    {
+      "id": "s5",
+      "icon": "🧪",
+      "name": "Lab Home Service",
+      "desc": "Pengambilan darah, rapid test, dan medical check-up tanpa keluar rumah.",
+      "price": "",
+      "category": "Laboratorium",
+      "popular": false,
+      "active": true
+    },
+    {
+      "id": "s6",
+      "icon": "🏃",
+      "name": "Physiotherapy",
+      "desc": "Rehabilitasi pasca stroke, terapi nyeri, dan latihan mobilisasi.",
+      "price": "",
+      "category": "Rehabilitasi",
+      "popular": false,
+      "active": true
+    },
+    {
+      "id": "s7",
+      "icon": "💧",
+      "name": "IV Therapy & Wellness",
+      "desc": "Vitamin drip, hydration therapy, dan wellness recovery premium.",
+      "price": "Rp 750K",
+      "category": "Wellness",
+      "popular": true,
+      "active": true
+    },
+    {
+      "id": "s8",
+      "icon": "✈️",
+      "name": "Tourist Medical",
+      "desc": "Doctor-to-hotel, emergency support & English-speaking doctor untuk wisatawan.",
+      "price": "From Rp 950K",
+      "category": "Tourist",
+      "popular": true,
+      "active": true
+    }
+  ],
+  "nav": [
+    {
+      "id": "n1",
+      "label": "Home",
+      "url": "index.html",
+      "active": true
+    },
+    {
+      "id": "n2",
+      "label": "Tentang",
+      "url": "tentang.html",
+      "active": true
+    },
+    {
+      "id": "n3",
+      "label": "Layanan",
+      "url": "services.html",
+      "active": false
+    },
+    {
+      "id": "n4",
+      "label": "Membership",
+      "url": "membership.html",
+      "active": false
+    },
+    {
+      "id": "n5",
+      "label": "Tourist Medical",
+      "url": "tourist.html",
+      "active": false
+    },
+    {
+      "id": "n6",
+      "label": "Corporate Care",
+      "url": "corporate-care.html",
+      "active": false
+    },
+    {
+      "id": "n7",
+      "label": "Blog",
+      "url": "blog.html",
+      "active": false
+    },
+    {
+      "id": "n8",
+      "label": "Careers",
+      "url": "careers.html",
+      "active": false
+    },
+    {
+      "id": "n9",
+      "label": "Contact",
+      "url": "contact.html",
+      "active": false
+    }
+  ],
+  "coverage": [
+    {
+      "id": "x5u2x37hi0td",
+      "name": "Mataram",
+      "lat": -8.5833,
+      "lng": 116.1167,
+      "radius": 12,
+      "desc": "Pusat layanan & respon tercepat",
+      "tourist": false,
+      "active": true
+    },
+    {
+      "id": "xotb7y6ki0td",
+      "name": "Senggigi",
+      "lat": -8.4889,
+      "lng": 116.0436,
+      "radius": 6,
+      "desc": "Area wisata pantai barat",
+      "tourist": true,
+      "active": true
+    },
+    {
+      "id": "xwxre5exi0td",
+      "name": "Kuta Mandalika",
+      "lat": -8.892,
+      "lng": 116.2811,
+      "radius": 8,
+      "desc": "Kawasan MotoGP & resort",
+      "tourist": true,
+      "active": true
+    },
+    {
+      "id": "xu41motki0td",
+      "name": "Gili Trawangan",
+      "lat": -8.3489,
+      "lng": 116.0392,
+      "radius": 3,
+      "desc": "Layanan ke hotel/resort",
+      "tourist": true,
+      "active": true
+    },
+    {
+      "id": "x8wri9t7i0td",
+      "name": "Gili Air",
+      "lat": -8.3603,
+      "lng": 116.0847,
+      "radius": 2,
+      "desc": "Layanan ke hotel/resort",
+      "tourist": true,
+      "active": true
+    },
+    {
+      "id": "xh1t14pri0td",
+      "name": "Gili Meno",
+      "lat": -8.3514,
+      "lng": 116.0614,
+      "radius": 2,
+      "desc": "Layanan ke hotel/resort",
+      "tourist": true,
+      "active": true
+    },
+    {
+      "id": "xpmverygi0td",
+      "name": "Praya",
+      "lat": -8.71,
+      "lng": 116.2742,
+      "radius": 10,
+      "desc": "Dekat Bandara Internasional Lombok",
+      "tourist": false,
+      "active": true
+    },
+    {
+      "id": "xp3vi49ci0td",
+      "name": "Selong",
+      "lat": -8.65,
+      "lng": 116.5247,
+      "radius": 10,
+      "desc": "Wilayah Lombok Timur",
+      "tourist": false,
+      "active": true
+    }
+  ],
+  "legalNav": [
+    {
+      "id": "xt33tgy0yci6",
+      "label": "Beranda",
+      "url": "index.html",
+      "active": true
+    },
+    {
+      "id": "xk2fist6yci6",
+      "label": "Tentang Kami",
+      "url": "tentang.html",
+      "active": true
+    },
+    {
+      "id": "x44pn1s8yci6",
+      "label": "Privasi",
+      "url": "kebijakan-privasi.html",
+      "active": true
+    },
+    {
+      "id": "xx97uwoeyci6",
+      "label": "Syarat & Ketentuan",
+      "url": "syarat-ketentuan.html",
+      "active": true
+    },
+    {
+      "id": "xeyy0wv1yci6",
+      "label": "Disclaimer",
+      "url": "disclaimer.html",
+      "active": true
+    }
+  ]
+}

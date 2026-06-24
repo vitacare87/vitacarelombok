@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>VITA CARE LOMBOK — Premium Healthcare At Your Doorstep</title>
+<meta name="description" content="Layanan kesehatan premium home care di Lombok. Dokter, perawat, fisioterapis, dan laboratorium datang ke rumah, villa, atau hotel Anda 24/7."/>
+<link rel="stylesheet" href="assets/style.css"/>
+<link rel="icon" href="assets/logo.png"/>
+<style>
+  /* Tambahan untuk layanan dinamis dari panel admin (vitacare-data.json) */
+  .service-card h3 .svc-pop{display:inline-block;margin-left:8px;font-size:11px;font-weight:700;letter-spacing:.02em;padding:2px 8px;border-radius:999px;background:#C9A24A;color:#1a1205;vertical-align:middle}
+  .service-card .svc-price{margin-top:10px;font-weight:700;color:#0F5A3C}
+  .service-card.gold .svc-price{color:#E0BE6B}
+</style>
+<!-- Leaflet (peta nyata, OpenStreetMap) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<style>
+  #coverageMap{width:100%;height:340px;border-radius:12px;overflow:hidden;position:relative;z-index:0}
+  #coverageMap .leaflet-popup-content{font-size:13px;line-height:1.5}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="index.html">
+      <img src="assets/logo.png" alt="VITA CARE LOMBOK"/>
+      <span class="brand-text"><b>VITA CARE</b><small>LOMBOK</small></span>
+    </a>
+    <div class="nav-links" id="navLinks" data-dynamic="vitacare-data.json">
+      <a href="index.html">Home</a>
+      <a href="about.html">Tentang</a>
+      <a href="services.html">Layanan</a>
+      <a href="membership.html">Membership</a>
+      <a href="tourist.html">Tourist Medical</a>
+      <a href="corporate-care.html">Corporate Care</a>
+      <a href="blog.html">Blog</a>
+      <a href="careers.html">Careers</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html" class="btn btn-outline">Login</a>
+      <a href="book-now.html" class="btn btn-primary">Book Now</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">Premium Home Care · Lombok</span>
+      <h1>Layanan Kesehatan <span>Eksklusif</span> Langsung ke Pintu Anda</h1>
+      <p>Dokter, perawat, fisioterapis, dan tim medis profesional VITA CARE LOMBOK siap melayani Anda di rumah, villa, hotel, atau penginapan — 24 jam, dengan standar concierge internasional.</p>
+      <div class="hero-ctas">
+        <a href="book-now.html" class="btn btn-gold btn-lg">🗓️ Book Now</a>
+        <a href="services.html" class="btn btn-outline btn-lg" style="border-color:#C9A24A;color:#E0BE6B">Lihat Layanan</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><b>24/7</b><span>Layanan</span></div>
+        <div class="hero-stat"><b>&lt;30 min</b><span>Response</span></div>
+        <div class="hero-stat"><b>9</b><span>Wilayah</span></div>
+        <div class="hero-stat"><b>50+</b><span>Tenaga Medis</span></div>
+      </div>
+    </div>
+    <div class="phone-mockup">
+      <div class="phone-screen">
+        <iframe src="customer.html" title="Customer portal preview"></iframe>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Layanan Unggulan</span>
+      <h2>Solusi Kesehatan Lengkap di Lokasi Anda</h2>
+      <p>Mulai dari konsultasi dokter, perawatan luka, hingga IV therapy & wellness — semua dijalankan tenaga medis berlisensi.</p>
+    </div>
+    <div class="services-grid" id="servicesGrid" data-dynamic="vitacare-data.json">
+      <div class="service-card"><div class="service-icon">🩺</div><h3>Doctor Home Visit</h3><p>Dokter umum, anak, penyakit dalam, dan geriatri datang langsung ke lokasi Anda.</p></div>
+      <div class="service-card alt"><div class="service-icon">💉</div><h3>Nursing Home Care</h3><p>Perawatan luka, injeksi, infus, kateter, nebulizer, dan wound care diabetes.</p></div>
+      <div class="service-card"><div class="service-icon">👵</div><h3>Elderly Care</h3><p>Pendampingan lansia, monitoring tekanan darah & gula darah harian.</p></div>
+      <div class="service-card alt"><div class="service-icon">👶</div><h3>Mother & Baby</h3><p>Kunjungan postpartum, neonatal care, baby check, dan support laktasi.</p></div>
+      <div class="service-card"><div class="service-icon">🧪</div><h3>Lab Home Service</h3><p>Pengambilan darah, rapid test, dan medical check-up tanpa keluar rumah.</p></div>
+      <div class="service-card alt"><div class="service-icon">🏃</div><h3>Physiotherapy</h3><p>Rehabilitasi pasca stroke, terapi nyeri, dan latihan mobilisasi.</p></div>
+      <div class="service-card gold"><div class="service-icon">💧</div><h3>IV Therapy & Wellness</h3><p>Vitamin drip, hydration therapy, dan wellness recovery premium.</p></div>
+      <div class="service-card gold"><div class="service-icon">✈️</div><h3>Tourist Medical</h3><p>Doctor-to-hotel, emergency support & English-speaking doctor untuk wisatawan.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Cara Kerja</span>
+      <h2>Empat Langkah Mudah</h2>
+      <p>Dari booking hingga layanan tuntas, semuanya dapat dilakukan dalam hitungan menit.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-step"><div class="how-num">1</div><h4>Pilih Layanan</h4><p>Pilih jenis layanan kesehatan yang Anda butuhkan dari katalog premium kami.</p></div>
+      <div class="how-step"><div class="how-num">2</div><h4>Atur Jadwal & Lokasi</h4><p>Tentukan lokasi via Google Maps dan pilih jadwal sekarang atau terjadwal.</p></div>
+      <div class="how-step"><div class="how-num">3</div><h4>Tracking Real-time</h4><p>Pantau tenaga medis menuju lokasi Anda secara langsung dalam aplikasi.</p></div>
+      <div class="how-step"><div class="how-num">4</div><h4>Layanan Selesai</h4><p>Terima rekam medis digital, e-resep, dan rating layanan dalam aplikasi.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="coverage">
+  <div class="container coverage-grid">
+    <div>
+      <span class="eyebrow" style="background:rgba(15,90,60,.08);color:var(--emerald)">Wilayah Layanan</span>
+      <h2 style="font-size:38px;margin:14px 0">Menjangkau Seluruh Lombok</h2>
+      <p style="color:var(--muted)">Tim VITA CARE LOMBOK tersebar di titik-titik strategis Lombok dan area wisata premium agar respons selalu cepat.</p>
+      <div class="coverage-list">
+        <div class="coverage-item"><span class="dot"></span>Mataram</div>
+        <div class="coverage-item tourist"><span class="dot"></span>Senggigi</div>
+        <div class="coverage-item tourist"><span class="dot"></span>Kuta Mandalika</div>
+        <div class="coverage-item tourist"><span class="dot"></span>Gili Trawangan</div>
+        <div class="coverage-item tourist"><span class="dot"></span>Gili Air</div>
+        <div class="coverage-item tourist"><span class="dot"></span>Gili Meno</div>
+        <div class="coverage-item"><span class="dot"></span>Praya</div>
+        <div class="coverage-item"><span class="dot"></span>Selong</div>
+      </div>
+    </div>
+    <div class="map-illu">
+      <div id="coverageMap" data-map="coverage"></div>
+      <div style="display:flex;justify-content:space-around;margin-top:16px;font-size:12px;color:var(--muted)">
+        <span>🟡 Wisata Premium</span>
+        <span>⚪ Kota Utama</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="membership">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Membership</span>
+      <h2>Pilih Paket Care Anda</h2>
+      <p>Akses prioritas, harga lebih hemat, dan koordinator pribadi untuk keluarga Anda.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier">
+        <div class="tier-name">Silver Care</div>
+        <div class="tier-price">Rp 499K<small>/bulan</small></div>
+        <ul>
+          <li>2× home visit dokter umum</li>
+          <li>Free teleconsultation</li>
+          <li>Diskon 10% semua layanan</li>
+          <li>Priority booking</li>
+        </ul>
+        <button class="btn btn-outline" style="border-color:#C9A24A;color:#E0BE6B">Pilih Silver</button>
+      </div>
+      <div class="tier featured">
+        <div class="tier-name">Gold Care</div>
+        <div class="tier-price">Rp 1.2 Jt<small>/bulan</small></div>
+        <ul>
+          <li>4× home visit dokter (umum/spesialis)</li>
+          <li>Unlimited teleconsultation</li>
+          <li>Diskon 20% semua layanan</li>
+          <li>Annual medical check-up</li>
+          <li>Dedicated care coordinator</li>
+        </ul>
+        <button class="btn btn-gold">Pilih Gold</button>
+      </div>
+      <div class="tier">
+        <div class="tier-name">Platinum Concierge</div>
+        <div class="tier-price">Rp 3.5 Jt<small>/bulan</small></div>
+        <ul>
+          <li>Unlimited home visit</li>
+          <li>24/7 personal concierge</li>
+          <li>IV Therapy & wellness bulanan</li>
+          <li>Premium MCU + spesialis</li>
+          <li>Family account hingga 5 anggota</li>
+          <li>Priority dispatch &lt;15 menit</li>
+        </ul>
+        <button class="btn btn-outline" style="border-color:#C9A24A;color:#E0BE6B">Pilih Platinum</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container tourist-grid">
+    <div>
+      <span class="eyebrow">Tourist Medical Assistance</span>
+      <h2 style="font-size:38px;margin:14px 0">Premium Care for Travelers</h2>
+      <p style="color:var(--muted);margin-bottom:20px">Layanan eksklusif untuk wisatawan di Senggigi, Gili Islands, dan Mandalika. English-speaking doctors, hotel & villa visit, 24/7 emergency support.</p>
+      <ul class="feature-list">
+        <li><div class="ic">🏨</div><div><h5>Doctor to Hotel/Villa</h5><p>Dokter datang langsung ke kamar hotel atau villa Anda dalam &lt;30 menit.</p></div></li>
+        <li><div class="ic">🚑</div><div><h5>Emergency Tourist Support</h5><p>Asisten medis 24/7 untuk kecelakaan diving, food poisoning, dan kondisi mendadak.</p></div></li>
+        <li><div class="ic">🌐</div><div><h5>English-Speaking Doctor</h5><p>Tim medis berbahasa Inggris siap melayani wisatawan internasional.</p></div></li>
+        <li><div class="ic">📄</div><div><h5>Travel Insurance Claim</h5><p>Dukungan dokumen medis untuk klaim asuransi perjalanan internasional.</p></div></li>
+      </ul>
+      <a href="tourist.html" class="btn btn-primary btn-lg" style="margin-top:20px">Pelajari Tourist Care</a>
+    </div>
+    <div class="card-soft" style="background:linear-gradient(135deg,#0F5A3C,#0F2547);color:#fff;padding:36px;border:0">
+      <div style="font-size:14px;color:var(--gold-2);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px">Quick Tourist Booking</div>
+      <h3 style="font-size:24px;margin-bottom:18px;color:#fff">Need a doctor at your hotel right now?</h3>
+      <div style="display:grid;gap:12px">
+        <div style="background:rgba(255,255,255,.08);padding:14px;border-radius:12px;display:flex;justify-content:space-between"><span>📍 Hotel / Villa Pickup</span><b style="color:var(--gold-2)">Free</b></div>
+        <div style="background:rgba(255,255,255,.08);padding:14px;border-radius:12px;display:flex;justify-content:space-between"><span>👨‍⚕️ General Practitioner</span><b style="color:var(--gold-2)">Rp 950K</b></div>
+        <div style="background:rgba(255,255,255,.08);padding:14px;border-radius:12px;display:flex;justify-content:space-between"><span>🩺 Specialist Doctor</span><b style="color:var(--gold-2)">From Rp 1.5M</b></div>
+        <div style="background:rgba(255,255,255,.08);padding:14px;border-radius:12px;display:flex;justify-content:space-between"><span>💉 IV Therapy / Drip</span><b style="color:var(--gold-2)">Rp 750K</b></div>
+      </div>
+      <a href="https://wa.me/6282227420800" class="btn btn-gold" style="margin-top:20px;width:100%;justify-content:center">📞 WhatsApp +62 822 2742 0800</a>
+    </div>
+  </div>
+</section>
+
+<section class="testi">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Testimoni</span>
+      <h2>Dipercaya Pasien & Wisatawan</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><p>"Dokter datang ke villa kami di Senggigi dalam 25 menit. Sangat profesional dan bisa berbahasa Inggris. Highly recommended!"</p><div class="testi-who"><div class="testi-avatar">SA</div><div><b>Sarah Anderson</b><span>Tourist · Australia</span></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><p>"Perawat luka untuk ibu saya yang diabetes datang rutin setiap minggu. Tim VITA CARE benar-benar peduli."</p><div class="testi-who"><div class="testi-avatar">BH</div><div><b>Bapak Hasan</b><span>Mataram</span></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><p>"Platinum membership sangat worth it. Concierge selalu standby, response cepat, layanan kelas atas."</p><div class="testi-who"><div class="testi-avatar">DR</div><div><b>Dr. Rina</b><span>Kuta Mandalika</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h2>Mulai Layanan Premium Anda Hari Ini</h2>
+  <p>Download aplikasi VITA CARE LOMBOK atau langsung pesan via WhatsApp. Tim medis kami siap melayani 24/7.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="app.html" class="btn btn-gold btn-lg">📱 Preview Aplikasi</a>
+    <a href="https://wa.me/6282227420800" class="btn btn-outline btn-lg" style="border-color:#fff;color:#fff">💬 WhatsApp Kami</a>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="margin-bottom:16px">
+          <img src="assets/logo.png" style="height:42px"/>
+          <span class="brand-text"><b style="color:#fff">VITA CARE</b><small>LOMBOK</small></span>
+        </div>
+        <p style="color:#7a8aa7;line-height:1.7">Premium Healthcare At Your Doorstep. Lembaga pelayanan kesehatan rumah & komunitas yang humanis, terpercaya, dan dekat dengan masyarakat Lombok.</p>
+      </div>
+      <div><h6>Layanan</h6><ul><li><a href="services.html">Doctor Visit</a></li><li><a href="services.html">Nursing Care</a></li><li><a href="services.html">Lab Service</a></li><li><a href="services.html">Physiotherapy</a></li><li><a href="tourist.html">Tourist Care</a></li></ul></div>
+      <div><h6>Perusahaan</h6><ul><li><a href="about.html">Tentang Kami</a></li><li><a href="membership.html">Membership</a></li><li><a href="contact.html">Karir</a></li><li><a href="contact.html">FAQ</a></li><li><a href="contact.html">Blog</a></li></ul></div>
+      <div><h6>Kontak</h6><ul><li>📍 Gang Tulip No. 20</li><li>Gomong, Selaparang</li><li>Mataram, NTB</li><li>📞 +62 822 2742 0800</li><li>✉️ hello@vitacarelombok.id</li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 VITA CARE LOMBOK. All rights reserved.</span>
+      <span>Dekat di Hati · Selalu di Nanti</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ====================================================================
+     LAYANAN DINAMIS — membaca vitacare-data.json yang dihasilkan panel
+     Super Admin (admin.html). Jika file tidak ada / gagal dimuat,
+     kartu layanan statis di atas tetap tampil sebagai cadangan.
+     ==================================================================== -->
+<script src="assets/vitacare-dynamic.js" defer></script>
+
+</body>
+</html>
